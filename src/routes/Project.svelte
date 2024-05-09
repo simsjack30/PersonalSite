@@ -27,7 +27,7 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <a
-	class="card variant-glass m-2 w-96"
+	class="card variant-glass m-2 md:w-96 w-80"
 	style="transform: scale({$size});"
 	on:mouseenter={handleMouseEnter}
 	on:mouseleave={handleMouseLeave}
@@ -37,7 +37,7 @@
 >
 	<div class="flex flex-col items-center">
 		<img
-			class="m-7 w-80 h-80 rounded-3xl object-cover border-solid border-2 border-black"
+			class="m-7 md:w-80 md:h-80 w-64 h-64 rounded-3xl object-cover border-solid border-2 border-black"
 			style="filter: grayscale({$grayscale}%); opacity: {$opacity}"
 			src={img}
 			alt=""

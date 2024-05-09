@@ -21,10 +21,15 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class="flex justify-center items-center card variant-glass m-2 w-20 aspect-square"
+	class="flex justify-center items-center card variant-glass m-2 md:w-20 w-12 aspect-square"
 	on:mouseenter={handleMouseEnter}
 	on:mouseleave={handleMouseLeave}
 	{title}
 >
-	<img class="p-4" style="filter: grayscale({$grayscale}%); opacity: {$opacity}" src={img} alt="" />
+	<img
+		class="p-4 scale-150 md:scale-100"
+		style="filter: grayscale({$grayscale}%); opacity: {$opacity}"
+		src={img}
+		alt=""
+	/>
 </div>

@@ -48,8 +48,8 @@
 		</div>
 		<div class="flex flex-col justify-center m-10">
 			<div class="mb-10">
-				<h2 class="h1 inline">Hello, I'm&nbsp</h2>
-				<h1 class="h1 inline">
+				<h2 class="h2 md:h1 inline">Hello, I'm&nbsp</h2>
+				<h1 class="h2 md:h1 inline">
 					<span
 						class="bg-gradient-to-br from-blue-500 to-emerald-500 bg-clip-text text-transparent box-decoration-clone"
 					>
@@ -57,8 +57,8 @@
 					>
 				</h1>
 			</div>
-			<h2 class="h2">I'm a creative full-stack</h2>
-			<h2 class="h2">software developer</h2>
+			<h2 class="h3 md:h2">I'm a creative full-stack</h2>
+			<h2 class="h3 md:h2">software developer</h2>
 		</div>
 	</div>
 </div>
@@ -81,7 +81,7 @@
 />
 <!-- Space tailwind class -->
 <!-- Add some md: -->
-<div class="flex flex-row justify-center flex-wrap md:w-1/2 mx-auto">
+<div class="flex flex-row justify-center flex-wrap w-5/6 md:w-1/2 mx-auto">
 	<Icon img="icons/svelte-icon.webp" title="Svelte" />
 	<Icon img="icons/godot.webp" title="Godot" />
 	<Icon img="icons/blender.png" title="Blender" />
@@ -92,7 +92,6 @@
 	<Icon img="icons/python.png" title="Python" />
 	<Icon img="icons/pico-8.png" title="Pico-8" />
 	<Icon img="icons/Xcode_14_icon.png" title="Xcode" />
-	<Icon img="icons/testflight-2023-05-19.avif" title="Test Flight" />
 	<Icon img="icons/vercel-icon.png" title="Vercel" />
 	<Icon img="icons/Notion_app_logo.png" title="Notion" />
 </div>
@@ -148,7 +147,7 @@
 {/if}
 
 {#if showButtonUp}
-	<div transition:fade class="scroll-button fixed bottom-0 left-0 w-full m-20">
+	<div transition:fade class="scroll-button fixed bottom-0 left-0 w-full m-20 md:block hidden">
 		<button
 			on:click={() => handleScroll('fadingDiv')}
 			class="btn-icon btn-icon-lg variant-ringed ring-[1.5px]"
@@ -169,24 +168,32 @@
 {/if}
 
 <div id="contact">
-	<div class="flex justify-center items-center mt-28 mb-10">
-		<a class="mr-4 btn variant-soft btn-xl" href="mailto:simsjack30@gmail.com"
+	<div class="flex flex-col md:flex-row justify-center items-center mt-28 mb-10">
+		<a class="mt-3 mr-4 btn variant-soft md:btn-xl btn-lg" href="mailto:simsjack30@gmail.com"
 			>simsjack30@gmail.com</a
 		>
-		<a href="https://chimefever.itch.io" class="m-3 btn-icon btn-icon-xl variant-soft">
-			<img
-				style="filter: brightness(0) invert(1); scale:calc(0.5);"
-				src="icons/itch.png"
-				alt=""
-			/></a
-		>
-		<a href="https://github.com/simsjack30" class="m-3 btn-icon btn-icon-xl variant-soft">
-			<img
-				style="filter: brightness(0) invert(1); scale:calc(0.5);"
-				src="icons/hub.png"
-				alt=""
-			/></a
-		>
+		<div class="mt-3 flex flex-row">
+			<a
+				href="https://chimefever.itch.io"
+				class="m-3 btn-icon md:btn-icon-xl btn-icon-lg variant-soft"
+			>
+				<img
+					style="filter: brightness(0) invert(1); scale:calc(0.5);"
+					src="icons/itch.png"
+					alt=""
+				/></a
+			>
+			<a
+				href="https://github.com/simsjack30"
+				class="m-3 btn-icon md:btn-icon-xl btn-icon-lg variant-soft"
+			>
+				<img
+					style="filter: brightness(0) invert(1); scale:calc(0.5);"
+					src="icons/hub.png"
+					alt=""
+				/></a
+			>
+		</div>
 	</div>
 </div>
 
