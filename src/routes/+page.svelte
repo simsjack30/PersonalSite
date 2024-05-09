@@ -121,7 +121,7 @@
 	<Project
 		img="this_site.png"
 		title="This Site"
-		description="My personal portfolio site and an attempt at humor, built with Svelte and Skeleton UI"
+		description="My personal portfolio site, built with Svelte and Skeleton UI"
 		link="https://jacksims.dev/"
 	/>
 </div>
