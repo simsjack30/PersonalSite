@@ -100,6 +100,24 @@
 
 <div id="projects" class="flex flex-row justify-center flex-wrap md:w-3/4 mx-auto">
 	<Project
+		img="dv.png"
+		title="Data Vis Portfolio"
+		description="A collection of data visualizations built with D3 and LayerCharts"
+		link="https://data-portfolio-two.vercel.app/marriage"
+	/>
+	<Project
+		img="kp.png"
+		title="Katapult Properties"
+		description="A real estate company site currently in production, built with Svelte"
+		link="https://www.katapultproperties.com/"
+	/>
+	<Project
+		img="ob.png"
+		title="Ocean Breeze"
+		description="A beach resort site currently in production, built with Svelte"
+		link="https://oceanbreezemd.com/"
+	/>
+	<Project
 		img="pico.png"
 		title="Elemental Bonds"
 		description="An educational game for learning the periodic table, built with
@@ -109,7 +127,7 @@
 	<Project
 		img="glory.png"
 		title="Glory Farms"
-		description="A wedding venue site currently in production, built with Svelte and Skeleton UI"
+		description="A wedding venue site currently in production, built with Svelte"
 		link="https://www.glory-farms.com/"
 	/>
 	<Project
@@ -121,7 +139,7 @@
 	<Project
 		img="this_site.png"
 		title="This Site"
-		description="My personal portfolio site, built with Svelte and Skeleton UI"
+		description="My personal portfolio site, built with Svelte"
 		link="https://jacksims.dev/"
 	/>
 </div>
