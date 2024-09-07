@@ -29,6 +29,7 @@
 		activeProjectIndex = index;
 		const projectWidth = 4;
 		translateXValue = -index * projectWidth;
+		console.log(activeProjectIndex);
 	}
 
 	function setActiveImage(projectIndex: number, imageIndex: number) {
@@ -36,6 +37,17 @@
 		const imageHeight = 17;
 		translateYValues[projectIndex] = -imageIndex * imageHeight;
 	}
+
+	function applyHover() {
+		leftButton.classList.add('scale-150');
+		leftButton.classList.add('-translate-x-1');
+	}
+	function removeHover() {
+		leftButton.classList.remove('scale-150');
+		leftButton.classList.remove('-translate-x-1');
+	}
+
+	let leftButton: HTMLButtonElement;
 </script>
 
 <div class="absolute bottom-0 left-0 w-full pointer-events-none z-10">
@@ -75,10 +87,6 @@
 					<FontAwesomeIcon icon={faItchIo} class="w-8 h-8 text-black" />
 				</button>
 			</a>
-			<button
-				on:click={() => setActiveProject(activeProjectIndex + 1)}
-				class="btn variant-filled-error">TEST</button
-			>
 		</div>
 	</div>
 </div>
@@ -89,6 +97,47 @@
 </div>
 
 <div class="fixed inset-0 overflow-hidden h-screen w-screen flex flex-col">
+	<!-- I think the buttons need to go here with the offsets applied -->
+
+	<!-- <button
+	on:click={() => setActiveProject(activeProjectIndex + 1)}
+	class="btn variant-filled-error">PRESS</button
+>
+<button
+	on:click={() => setActiveImage(activeProjectIndex, verticalIndexes[activeProjectIndex] + 1)}
+	class="btn variant-filled-error">PRESS</button
+> -->
+	<div
+		class="absolute top-1/2 left-1/4 z-40"
+		style="transform: translateX({16 + translateXValue + activeProjectIndex * 13}rem);"
+	>
+		{#if activeProjectIndex < totalImageArray.length - 1}
+			<!-- <svg class="w-16 rotate-90 right-[-25px] absolute" viewBox="0 0 50 12.5">
+				<path d="M 0 0 C 4 0 12 0 16 8 C 19 14 31 14 34 8 C 38 0 46 0 50 0" fill="#ffffff" />
+			</svg> -->
+		{/if}
+		{#if activeProjectIndex > 0}
+			<!-- <svg class="w-16 -rotate-90 left-[-408px] absolute" viewBox="0 0 50 12.5">
+				<path d="M 0 0 C 4 0 12 0 16 8 C 19 14 31 14 34 8 C 38 0 46 0 50 0" fill="#ffffff" />
+			</svg>
+			<svg class="w-16 rotate-90 left-[-440px] absolute" viewBox="0 0 50 12.5">
+				<path d="M 0 0 C 4 0 12 0 16 8 C 19 14 31 14 34 8 C 38 0 46 0 50 0" fill="#ffffff" />
+			</svg> -->
+			<button
+				in:fade={{ duration: 300, delay: 700 }}
+				out:fade={{ duration: 200 }}
+				on:click={() => setActiveProject(activeProjectIndex - 1)}
+				class="z-10 rounded-full p-1 absolute left-[-408px] m-2 hover:scale-150 -translate-y-[26px] hover:-translate-x-1 transition-transform"
+			>
+				<div
+					on:pointerenter={applyHover}
+					on:pointerout={removeHover}
+					class="h-7 w-7 rounded-full"
+				></div>
+			</button>
+		{/if}
+	</div>
+
 	<div
 		class="relative h-full w-full transition-transform duration-500 delay-200 flex"
 		style="transform: translateX({translateXValue}rem);"
@@ -121,7 +170,20 @@
 											out:fade={{ duration: 200 }}
 											class="absolute inset-0 flex flex-col justify-center items-center bg-opacity-10 bg-black text-white rounded-lg"
 										>
-											<Tile />
+											{#if activeProjectIndex > 0}
+												<svg class="w-16 -rotate-90 left-[-25px] absolute" viewBox="0 0 50 12.5">
+													<path
+														d="M 0 0 C 4 0 12 0 16 8 C 19 14 31 14 34 8 C 38 0 46 0 50 0"
+														fill="#ffffff"
+													/>
+												</svg>
+												<button
+													bind:this={leftButton}
+													class="z-10 rounded-full p-1 absolute -left-5 m-2 transition-transform"
+												>
+													<ChevronLeft size="20" color="black" />
+												</button>
+											{/if}
 										</div>
 									{/if}
 								</button>
