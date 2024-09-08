@@ -5,7 +5,8 @@
 
 	import { faGithub, faLinkedin, faItchIo } from '@fortawesome/free-brands-svg-icons';
 	import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-	import Tile from './testingThree/Tile.svelte';
+	import Tile from './Tile.svelte';
+	import { hide } from '@floating-ui/dom';
 
 	let imageArray1 = ['one.jpg', 'two.jpg', 'three.jpg', 'four.jpg', 'five.jpg'];
 	let imageArray2 = ['one.jpg', 'two.jpg', 'three.jpg', 'four.jpg', 'five.jpg'];
@@ -25,33 +26,47 @@
 	let verticalIndexes = [2, 0, 4, 2, 1, 4];
 	let translateYValues = verticalIndexes.map((index) => -index * 17);
 
-	function setActiveProject(index: number, event: MouseEvent) {
-		event.stopPropagation();
+	function setActiveProject(index: number, event?: MouseEvent) {
+		hideModal();
+		if (event) event.stopPropagation();
 		activeProjectIndex = index;
 		const projectWidth = 4;
 		translateXValue = -index * projectWidth;
-		console.log(activeProjectIndex);
 	}
 
 	function setActiveImage(projectIndex: number, imageIndex: number, event?: MouseEvent) {
+		hideModal();
 		if (event) event.stopPropagation();
 		verticalIndexes[projectIndex] = imageIndex;
 		const imageHeight = 17;
 		translateYValues[projectIndex] = -imageIndex * imageHeight;
 	}
 
-	let intro = true;
-	let name = 'Jack Sims';
+	let loading = true;
+
+	// setTimeout(() => {
+	// 	loading = false;
+	// }, 3000);
+
+	let modal = false;
+
+	function hideModal() {
+		modal = false;
+	}
+
+	function showModal() {
+		modal = !modal;
+	}
 </script>
 
-{#if intro}
+<!-- {#if loading}
 	<div
 		transition:blur={{ duration: 1000 }}
-		class="transition-opacity absolute w-full h-screen flex justify-center items-center bg-white z-50"
+		class="absolute w-full h-screen flex justify-center items-center bg-white z-50"
 	>
-		<button on:click={() => (intro = false)} class="text-black btn"> Enter Site </button>
+		<h1 class="text-black h1">Hello and Welcome</h1>
 	</div>
-{/if}
+{/if} -->
 
 <div class="absolute bottom-0 left-0 w-full pointer-events-none z-10">
 	<div class="h-40" style="background: linear-gradient(to top, white, transparent);"></div>
@@ -116,7 +131,9 @@
 						class="{activeProjectIndex === projectIndex
 							? 'w-96'
 							: 'w-48'} transition-all duration-500 block cursor-default"
-						on:click={(event) => setActiveProject(projectIndex, event)}
+						on:click={(event) => {
+							setActiveProject(projectIndex, event);
+						}}
 					>
 						<div
 							class="flex flex-col transition-transform duration-500 gap-4 delay-200"
@@ -124,20 +141,30 @@
 						>
 							{#each imageArray as image, imageIndex}
 								<button
-									on:click={() => setActiveImage(projectIndex, imageIndex)}
+									on:click={() => {
+										setActiveImage(projectIndex, imageIndex);
+									}}
 									class="h-64 w-48 relative {verticalIndexes[projectIndex] === imageIndex &&
 									activeProjectIndex === projectIndex
 										? 'active'
-										: 'grayscale inactive'} transition-all duration-500"
+										: 'grayscale inactive'} transition-all duration-500 {modal &&
+									verticalIndexes[projectIndex] === imageIndex &&
+									activeProjectIndex === projectIndex
+										? 'modalClass'
+										: 'h-64'}"
 								>
 									<img class="w-full h-full object-cover rounded-lg" src={image} alt="Project" />
 									{#if verticalIndexes[projectIndex] === imageIndex && activeProjectIndex === projectIndex}
 										<div
 											in:fade={{ duration: 300, delay: 100 }}
 											out:fade={{ duration: 200 }}
-											class="absolute inset-0 flex flex-col justify-center items-center bg-opacity-10 bg-black text-white rounded-lg"
+											class="absolute inset-0 flex flex-col justify-center items-center text-white rounded-lg"
 										>
-											<Tile />
+											<!-- <Tile /> -->
+											<div class="flex justify-center items-center relative">
+												<button on:click={showModal} class="btn variant-filled-error">test</button>
+											</div>
+
 											{#if activeProjectIndex > 0}
 												<svg class="w-16 -rotate-90 left-[-25px] absolute" viewBox="0 0 50 12.5">
 													<path
@@ -146,7 +173,10 @@
 													/>
 												</svg>
 												<button
-													on:click={(event) => setActiveProject(activeProjectIndex - 1, event)}
+													on:click={(event) => {
+														setActiveProject(activeProjectIndex - 1, event);
+														hideModal();
+													}}
 													class="z-10 rounded-full p-1 absolute -left-5 m-2 transition-transform hover:scale-150 hover:-translate-x-1"
 												>
 													<ChevronLeft size="20" color="black" />
@@ -160,7 +190,10 @@
 													/>
 												</svg>
 												<button
-													on:click={(event) => setActiveProject(activeProjectIndex + 1, event)}
+													on:click={(event) => {
+														setActiveProject(activeProjectIndex + 1, event);
+														hideModal();
+													}}
 													class="z-10 rounded-full p-1 absolute -right-5 m-2 transition-transform hover:scale-150 hover:translate-x-1"
 												>
 													<ChevronRight size="20" color="black" />
@@ -177,8 +210,10 @@
 													/>
 												</svg>
 												<button
-													on:click={(event) =>
-														setActiveImage(projectIndex, verticalIndexes[projectIndex] + 1, event)}
+													on:click={(event) => {
+														setActiveImage(projectIndex, verticalIndexes[projectIndex] + 1, event);
+														hideModal();
+													}}
 													class="z-10 rounded-full p-1 absolute -bottom-5 left-20 m-2 transition-transform hover:scale-150 hover:translate-y-1"
 												>
 													<ChevronDown size="20" color="black" />
@@ -192,8 +227,10 @@
 													/>
 												</svg>
 												<button
-													on:click={(event) =>
-														setActiveImage(projectIndex, verticalIndexes[projectIndex] - 1, event)}
+													on:click={(event) => {
+														setActiveImage(projectIndex, verticalIndexes[projectIndex] - 1, event);
+														hideModal();
+													}}
 													class="z-10 rounded-full p-1 absolute -top-5 left-20 m-2 transition-transform hover:scale-150 hover:-translate-y-1"
 												>
 													<ChevronUp size="20" color="black" />
@@ -211,11 +248,24 @@
 	</div>
 </div>
 
+<!-- {#if modal}
+	<div
+		class="absolute bg-black opacity-40 z-40 w-full h-screen flex justify-center items-center"
+	></div>
+	<div>
+
+	</div>
+	<div class="absolute flex h-1/3 w-1/3 justify-center items-center bg-white z-50">CONTENT</div>
+{/if} -->
+
 <style>
 	.active {
 		@apply w-96 cursor-default;
 	}
 	.inactive {
 		@apply hover:scale-95 hover:grayscale-0;
+	}
+	.modalClass {
+		@apply h-96;
 	}
 </style>
