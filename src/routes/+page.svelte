@@ -26,8 +26,11 @@
 	let verticalIndexes = [2, 0, 4, 2, 1, 4];
 	let translateYValues = verticalIndexes.map((index) => -index * 17);
 
+	let lastProjectIndex = activeProjectIndex;
+	let lastVerticalIndexes = [...verticalIndexes];
+
 	function setActiveProject(index: number, event?: MouseEvent) {
-		hideModal();
+		lastProjectIndex = activeProjectIndex;
 		if (event) event.stopPropagation();
 		activeProjectIndex = index;
 		const projectWidth = 4;
@@ -35,7 +38,8 @@
 	}
 
 	function setActiveImage(projectIndex: number, imageIndex: number, event?: MouseEvent) {
-		hideModal();
+		lastVerticalIndexes[projectIndex] = verticalIndexes[projectIndex]; // Save the previous vertical index for this project
+
 		if (event) event.stopPropagation();
 		verticalIndexes[projectIndex] = imageIndex;
 		const imageHeight = 17;
@@ -56,6 +60,27 @@
 
 	function showModal() {
 		modal = !modal;
+	}
+
+	$: if (modal && lastProjectIndex !== activeProjectIndex) {
+		hideModal();
+		lastProjectIndex = activeProjectIndex;
+	}
+
+	$: if (!modal && lastProjectIndex !== activeProjectIndex) {
+		lastProjectIndex = activeProjectIndex;
+	}
+
+	$: if (modal && lastVerticalIndexes[activeProjectIndex] !== verticalIndexes[activeProjectIndex]) {
+		hideModal();
+		lastVerticalIndexes[activeProjectIndex] = verticalIndexes[activeProjectIndex];
+	}
+
+	$: if (
+		!modal &&
+		lastVerticalIndexes[activeProjectIndex] !== verticalIndexes[activeProjectIndex]
+	) {
+		lastVerticalIndexes[activeProjectIndex] = verticalIndexes[activeProjectIndex];
 	}
 </script>
 
@@ -125,7 +150,7 @@
 		style="transform: translateX({translateXValue}rem);"
 	>
 		<div class="absolute top-1/2 left-1/4">
-			<div class="flex flex-row gap-4 -translate-x-32 -translate-y-32">
+			<div class="flex flex-row gap-4 -translate-x-32 -translate-y-32 items-start">
 				{#each totalImageArray as imageArray, projectIndex}
 					<button
 						class="{activeProjectIndex === projectIndex
@@ -175,7 +200,6 @@
 												<button
 													on:click={(event) => {
 														setActiveProject(activeProjectIndex - 1, event);
-														hideModal();
 													}}
 													class="z-10 rounded-full p-1 absolute -left-5 m-2 transition-transform hover:scale-150 hover:-translate-x-1"
 												>
@@ -192,7 +216,6 @@
 												<button
 													on:click={(event) => {
 														setActiveProject(activeProjectIndex + 1, event);
-														hideModal();
 													}}
 													class="z-10 rounded-full p-1 absolute -right-5 m-2 transition-transform hover:scale-150 hover:translate-x-1"
 												>
@@ -212,7 +235,6 @@
 												<button
 													on:click={(event) => {
 														setActiveImage(projectIndex, verticalIndexes[projectIndex] + 1, event);
-														hideModal();
 													}}
 													class="z-10 rounded-full p-1 absolute -bottom-5 left-20 m-2 transition-transform hover:scale-150 hover:translate-y-1"
 												>
@@ -229,7 +251,6 @@
 												<button
 													on:click={(event) => {
 														setActiveImage(projectIndex, verticalIndexes[projectIndex] - 1, event);
-														hideModal();
 													}}
 													class="z-10 rounded-full p-1 absolute -top-5 left-20 m-2 transition-transform hover:scale-150 hover:-translate-y-1"
 												>
