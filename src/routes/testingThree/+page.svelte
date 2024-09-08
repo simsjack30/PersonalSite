@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
+	import { fade, blur } from 'svelte/transition';
 	import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
 	import { X, ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from 'lucide-svelte';
 
@@ -19,36 +19,38 @@
 		imageArray3
 	];
 
-	let activeProjectIndex = 2;
+	let activeProjectIndex = 3;
 	let translateXValue = 4 * -activeProjectIndex;
 
 	let verticalIndexes = [2, 0, 4, 2, 1, 4];
 	let translateYValues = verticalIndexes.map((index) => -index * 17);
 
-	function setActiveProject(index: number) {
+	function setActiveProject(index: number, event: MouseEvent) {
+		event.stopPropagation();
 		activeProjectIndex = index;
 		const projectWidth = 4;
 		translateXValue = -index * projectWidth;
 		console.log(activeProjectIndex);
 	}
 
-	function setActiveImage(projectIndex: number, imageIndex: number) {
+	function setActiveImage(projectIndex: number, imageIndex: number, event?: MouseEvent) {
+		if (event) event.stopPropagation();
 		verticalIndexes[projectIndex] = imageIndex;
 		const imageHeight = 17;
 		translateYValues[projectIndex] = -imageIndex * imageHeight;
 	}
 
-	function applyHover() {
-		leftButton.classList.add('scale-150');
-		leftButton.classList.add('-translate-x-1');
-	}
-	function removeHover() {
-		leftButton.classList.remove('scale-150');
-		leftButton.classList.remove('-translate-x-1');
-	}
-
-	let leftButton: HTMLButtonElement;
+	let intro = true;
 </script>
+
+{#if intro}
+	<div
+		transition:blur={{ duration: 1000 }}
+		class="transition-opacity absolute w-full h-screen flex justify-center items-center bg-white"
+	>
+		<button on:click={() => (intro = false)} class="text-black btn"> Enter Site </button>
+	</div>
+{/if}
 
 <div class="absolute bottom-0 left-0 w-full pointer-events-none z-10">
 	<div class="h-40" style="background: linear-gradient(to top, white, transparent);"></div>
@@ -97,49 +99,13 @@
 </div>
 
 <div class="fixed inset-0 overflow-hidden h-screen w-screen flex flex-col">
-	<!-- I think the buttons need to go here with the offsets applied -->
-
-	<!-- <button
-	on:click={() => setActiveProject(activeProjectIndex + 1)}
-	class="btn variant-filled-error">PRESS</button
->
-<button
-	on:click={() => setActiveImage(activeProjectIndex, verticalIndexes[activeProjectIndex] + 1)}
-	class="btn variant-filled-error">PRESS</button
-> -->
 	<div
 		class="absolute top-1/2 left-1/4 z-40"
 		style="transform: translateX({16 + translateXValue + activeProjectIndex * 13}rem);"
-	>
-		{#if activeProjectIndex < totalImageArray.length - 1}
-			<!-- <svg class="w-16 rotate-90 right-[-25px] absolute" viewBox="0 0 50 12.5">
-				<path d="M 0 0 C 4 0 12 0 16 8 C 19 14 31 14 34 8 C 38 0 46 0 50 0" fill="#ffffff" />
-			</svg> -->
-		{/if}
-		{#if activeProjectIndex > 0}
-			<!-- <svg class="w-16 -rotate-90 left-[-408px] absolute" viewBox="0 0 50 12.5">
-				<path d="M 0 0 C 4 0 12 0 16 8 C 19 14 31 14 34 8 C 38 0 46 0 50 0" fill="#ffffff" />
-			</svg>
-			<svg class="w-16 rotate-90 left-[-440px] absolute" viewBox="0 0 50 12.5">
-				<path d="M 0 0 C 4 0 12 0 16 8 C 19 14 31 14 34 8 C 38 0 46 0 50 0" fill="#ffffff" />
-			</svg> -->
-			<button
-				in:fade={{ duration: 300, delay: 700 }}
-				out:fade={{ duration: 200 }}
-				on:click={() => setActiveProject(activeProjectIndex - 1)}
-				class="z-10 rounded-full p-1 absolute left-[-408px] m-2 hover:scale-150 -translate-y-[26px] hover:-translate-x-1 transition-transform"
-			>
-				<div
-					on:pointerenter={applyHover}
-					on:pointerout={removeHover}
-					class="h-7 w-7 rounded-full"
-				></div>
-			</button>
-		{/if}
-	</div>
+	></div>
 
 	<div
-		class="relative h-full w-full transition-transform duration-500 delay-200 flex"
+		class="relative h-full w-full transition-transform duration-500 delay-200 flex md:scale-0"
 		style="transform: translateX({translateXValue}rem);"
 	>
 		<div class="absolute top-1/2 left-1/4">
@@ -149,7 +115,7 @@
 						class="{activeProjectIndex === projectIndex
 							? 'w-96'
 							: 'w-48'} transition-all duration-500 block cursor-default"
-						on:click={() => setActiveProject(projectIndex)}
+						on:click={(event) => setActiveProject(projectIndex, event)}
 					>
 						<div
 							class="flex flex-col transition-transform duration-500 gap-4 delay-200"
@@ -170,6 +136,7 @@
 											out:fade={{ duration: 200 }}
 											class="absolute inset-0 flex flex-col justify-center items-center bg-opacity-10 bg-black text-white rounded-lg"
 										>
+											<Tile />
 											{#if activeProjectIndex > 0}
 												<svg class="w-16 -rotate-90 left-[-25px] absolute" viewBox="0 0 50 12.5">
 													<path
@@ -178,10 +145,57 @@
 													/>
 												</svg>
 												<button
-													bind:this={leftButton}
-													class="z-10 rounded-full p-1 absolute -left-5 m-2 transition-transform"
+													on:click={(event) => setActiveProject(activeProjectIndex - 1, event)}
+													class="z-10 rounded-full p-1 absolute -left-5 m-2 transition-transform hover:scale-150 hover:-translate-x-1"
 												>
 													<ChevronLeft size="20" color="black" />
+												</button>
+											{/if}
+											{#if activeProjectIndex < totalImageArray.length - 1}
+												<svg class="w-16 rotate-90 right-[-25px] absolute" viewBox="0 0 50 12.5">
+													<path
+														d="M 0 0 C 4 0 12 0 16 8 C 19 14 31 14 34 8 C 38 0 46 0 50 0"
+														fill="#ffffff"
+													/>
+												</svg>
+												<button
+													on:click={(event) => setActiveProject(activeProjectIndex + 1, event)}
+													class="z-10 rounded-full p-1 absolute -right-5 m-2 transition-transform hover:scale-150 hover:translate-x-1"
+												>
+													<ChevronRight size="20" color="black" />
+												</button>
+											{/if}
+											{#if verticalIndexes[projectIndex] < imageArray.length - 1}
+												<svg
+													class="w-16 rotate-180 bottom-0 absolute left-[70px]"
+													viewBox="0 0 50 12.5"
+												>
+													<path
+														d="M 0 0 C 4 0 12 0 16 8 C 19 14 31 14 34 8 C 38 0 46 0 50 0"
+														fill="#ffffff"
+													/>
+												</svg>
+												<button
+													on:click={(event) =>
+														setActiveImage(projectIndex, verticalIndexes[projectIndex] + 1, event)}
+													class="z-10 rounded-full p-1 absolute -bottom-5 left-20 m-2 transition-transform hover:scale-150 hover:translate-y-1"
+												>
+													<ChevronDown size="20" color="black" />
+												</button>
+											{/if}
+											{#if verticalIndexes[projectIndex] > 0}
+												<svg class="w-16 top-0 absolute left-[70px]" viewBox="0 0 50 12.5">
+													<path
+														d="M 0 0 C 4 0 12 0 16 8 C 19 14 31 14 34 8 C 38 0 46 0 50 0"
+														fill="#ffffff"
+													/>
+												</svg>
+												<button
+													on:click={(event) =>
+														setActiveImage(projectIndex, verticalIndexes[projectIndex] - 1, event)}
+													class="z-10 rounded-full p-1 absolute -top-5 left-20 m-2 transition-transform hover:scale-150 hover:-translate-y-1"
+												>
+													<ChevronUp size="20" color="black" />
 												</button>
 											{/if}
 										</div>
