@@ -1,38 +1,24 @@
-# create-svelte
+# Personal Website
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+This is my personal website, where I showcase my projects, skills, and goals. Feel free to use my site as a template to create your own. Just substitute in your name, skills, goals, and deploy it online!
 
-## Creating a project
+The project is built with Svelte, SvelteKit, Skeleton UI, hosted on Railway, and deployed on Vercel.
 
-If you're seeing this, you've probably already done this step. Congrats!
+You can visit the live site [here](https://jacksims.dev/)!
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+---
+### How to Build It Yourself
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+1. **Clone the Repository**  
+   `git clone https://github.com/simsjack30/PersonalSite.git`
 
-## Developing
+2. **Install Dependencies**  
+   Navigate into the project directory and run:  
+   `npm install`
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+3. **Run the Development Server**  
+   Start the development server with:  
+   `npm run dev`
 
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+---
+Check out my other projects on [GitHub](https://github.com/yourusername?tab=repositories)
