@@ -46,7 +46,7 @@
 {#if intro}
 	<div
 		transition:blur={{ duration: 1000 }}
-		class="transition-opacity absolute w-full h-screen flex justify-center items-center bg-white"
+		class="transition-opacity absolute w-full h-screen flex justify-center items-center bg-white z-50"
 	>
 		<button on:click={() => (intro = false)} class="text-black btn"> Enter Site </button>
 	</div>
