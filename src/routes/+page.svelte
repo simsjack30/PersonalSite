@@ -1,222 +1,221 @@
 <script lang="ts">
-	let showButton = true;
-	let showButtonUp = false;
-	let opacity = 1;
+	import { fade, blur } from 'svelte/transition';
+	import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
+	import { X, ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from 'lucide-svelte';
 
-	import CustomButton from './CustomButton.svelte';
-	import { fade } from 'svelte/transition';
-	import { onMount } from 'svelte';
-	import Icon from './Icon.svelte';
-	import Project from './Project.svelte';
-	import Text from './Text.svelte';
+	import { faGithub, faLinkedin, faItchIo } from '@fortawesome/free-brands-svg-icons';
+	import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+	import Tile from './testingThree/Tile.svelte';
 
-	onMount(() => {
-		updateVisibility();
-	});
+	let imageArray1 = ['one.jpg', 'two.jpg', 'three.jpg', 'four.jpg', 'five.jpg'];
+	let imageArray2 = ['one.jpg', 'two.jpg', 'three.jpg', 'four.jpg', 'five.jpg'];
+	let imageArray3 = ['one.jpg', 'two.jpg', 'three.jpg', 'four.jpg', 'five.jpg'];
+	let totalImageArray = [
+		imageArray1,
+		imageArray2,
+		imageArray3,
+		imageArray1,
+		imageArray2,
+		imageArray3
+	];
 
-	function handleScroll(targetId: string) {
-		const element = document.getElementById(targetId);
-		if (element) {
-			element.scrollIntoView({ behavior: 'smooth' });
-		}
+	let activeProjectIndex = 3;
+	let translateXValue = 4 * -activeProjectIndex;
+
+	let verticalIndexes = [2, 0, 4, 2, 1, 4];
+	let translateYValues = verticalIndexes.map((index) => -index * 17);
+
+	function setActiveProject(index: number, event: MouseEvent) {
+		event.stopPropagation();
+		activeProjectIndex = index;
+		const projectWidth = 4;
+		translateXValue = -index * projectWidth;
+		console.log(activeProjectIndex);
 	}
 
-	function updateVisibility() {
-		if (window.scrollY === 0) {
-			showButton = true;
-			showButtonUp = false;
-		} else {
-			showButton = false;
-			showButtonUp = true;
-		}
-
-		const windowHeight = window.innerHeight / 2;
-		const scrollY = window.scrollY;
-		opacity = 1 - scrollY / windowHeight;
+	function setActiveImage(projectIndex: number, imageIndex: number, event?: MouseEvent) {
+		if (event) event.stopPropagation();
+		verticalIndexes[projectIndex] = imageIndex;
+		const imageHeight = 17;
+		translateYValues[projectIndex] = -imageIndex * imageHeight;
 	}
+
+	let intro = true;
+	let name = 'Jack Sims';
 </script>
 
-<svelte:window on:scroll={updateVisibility} on:resize={updateVisibility} />
+{#if intro}
+	<div
+		transition:blur={{ duration: 1000 }}
+		class="transition-opacity absolute w-full h-screen flex justify-center items-center bg-white z-50"
+	>
+		<button on:click={() => (intro = false)} class="text-black btn"> Enter Site </button>
+	</div>
+{/if}
 
-<div id="fadingDiv" style="opacity: {opacity};" class="flex items-center justify-center h-screen">
-	<div class="flex flex-row justify-center">
-		<div class="flex flex-col items-end m-10">
-			<CustomButton on:click={() => handleScroll('about')} scrollLocation="About" />
-			<CustomButton on:click={() => handleScroll('skills')} scrollLocation="Skills" />
-			<CustomButton on:click={() => handleScroll('projects')} scrollLocation="Projects" />
-			<CustomButton on:click={() => handleScroll('contact')} scrollLocation="Contact" />
+<div class="absolute bottom-0 left-0 w-full pointer-events-none z-10">
+	<div class="h-40" style="background: linear-gradient(to top, white, transparent);"></div>
+	<div class="h-8 bg-white"></div>
+</div>
+
+<div class="absolute top-0 left-0 w-full z-20 flex flex-col">
+	<div class="flex flex-row justify-between items-center p-4">
+		<h1 class="h1 text-black">Jack Sims</h1>
+		<div class="flex flex-row gap-4 items-center">
+			<a href="mailto:simsjack30@gmail.com" title="simsjack30@gmail.com">
+				<button
+					class="btn btn-icon hover:scale-125 active:scale-90 hover:-rotate-12 hover:-translate-y-2"
+				>
+					<FontAwesomeIcon icon={faEnvelope} class="w-8 h-8 text-black" />
+				</button>
+			</a>
+			<a href="https://github.com/simsjack30" target="_blank" title="GitHub">
+				<button
+					class="btn btn-icon hover:scale-125 active:scale-90 hover:-rotate-6 hover:-translate-y-3"
+				>
+					<FontAwesomeIcon icon={faGithub} class="w-8 h-8 text-black" />
+				</button>
+			</a>
+			<a href="https://www.linkedin.com/in/1jacksims/" target="_blank" title="LinkedIn">
+				<button
+					class="btn btn-icon hover:scale-125 active:scale-90 hover:rotate-6 hover:-translate-y-3"
+				>
+					<FontAwesomeIcon icon={faLinkedin} class="w-8 h-8 text-black" />
+				</button>
+			</a>
+			<a href="https://chimefever.itch.io/" target="_blank" title="itch.io">
+				<button
+					class="btn btn-icon hover:scale-125 active:scale-90 hover:rotate-12 hover:-translate-y-2"
+				>
+					<FontAwesomeIcon icon={faItchIo} class="w-8 h-8 text-black" />
+				</button>
+			</a>
 		</div>
-		<div class="flex flex-col justify-center m-10">
-			<div class="mb-10">
-				<h2 class="h2 md:h1 inline">Hello, I'm&nbsp</h2>
-				<h1 class="h2 md:h1 inline">
-					<span
-						class="bg-gradient-to-br from-blue-500 to-emerald-500 bg-clip-text text-transparent box-decoration-clone"
+	</div>
+</div>
+
+<div class="absolute top-0 left-0 w-full pointer-events-none z-10">
+	<div class="h-20 bg-white"></div>
+	<div class="h-40" style="background: linear-gradient(to bottom, white, transparent);"></div>
+</div>
+
+<div class="fixed inset-0 overflow-hidden h-screen w-screen flex flex-col">
+	<div
+		class="absolute top-1/2 left-1/4 z-40"
+		style="transform: translateX({16 + translateXValue + activeProjectIndex * 13}rem);"
+	></div>
+
+	<div
+		class="relative h-full w-full transition-transform duration-500 delay-200 flex md:scale-0"
+		style="transform: translateX({translateXValue}rem);"
+	>
+		<div class="absolute top-1/2 left-1/4">
+			<div class="flex flex-row gap-4 -translate-x-32 -translate-y-32">
+				{#each totalImageArray as imageArray, projectIndex}
+					<button
+						class="{activeProjectIndex === projectIndex
+							? 'w-96'
+							: 'w-48'} transition-all duration-500 block cursor-default"
+						on:click={(event) => setActiveProject(projectIndex, event)}
 					>
-						Jack Sims</span
-					>
-				</h1>
+						<div
+							class="flex flex-col transition-transform duration-500 gap-4 delay-200"
+							style="transform:translateY({translateYValues[projectIndex]}rem)"
+						>
+							{#each imageArray as image, imageIndex}
+								<button
+									on:click={() => setActiveImage(projectIndex, imageIndex)}
+									class="h-64 w-48 relative {verticalIndexes[projectIndex] === imageIndex &&
+									activeProjectIndex === projectIndex
+										? 'active'
+										: 'grayscale inactive'} transition-all duration-500"
+								>
+									<img class="w-full h-full object-cover rounded-lg" src={image} alt="Project" />
+									{#if verticalIndexes[projectIndex] === imageIndex && activeProjectIndex === projectIndex}
+										<div
+											in:fade={{ duration: 300, delay: 100 }}
+											out:fade={{ duration: 200 }}
+											class="absolute inset-0 flex flex-col justify-center items-center bg-opacity-10 bg-black text-white rounded-lg"
+										>
+											<Tile />
+											{#if activeProjectIndex > 0}
+												<svg class="w-16 -rotate-90 left-[-25px] absolute" viewBox="0 0 50 12.5">
+													<path
+														d="M 0 0 C 4 0 12 0 16 8 C 19 14 31 14 34 8 C 38 0 46 0 50 0"
+														fill="#ffffff"
+													/>
+												</svg>
+												<button
+													on:click={(event) => setActiveProject(activeProjectIndex - 1, event)}
+													class="z-10 rounded-full p-1 absolute -left-5 m-2 transition-transform hover:scale-150 hover:-translate-x-1"
+												>
+													<ChevronLeft size="20" color="black" />
+												</button>
+											{/if}
+											{#if activeProjectIndex < totalImageArray.length - 1}
+												<svg class="w-16 rotate-90 right-[-25px] absolute" viewBox="0 0 50 12.5">
+													<path
+														d="M 0 0 C 4 0 12 0 16 8 C 19 14 31 14 34 8 C 38 0 46 0 50 0"
+														fill="#ffffff"
+													/>
+												</svg>
+												<button
+													on:click={(event) => setActiveProject(activeProjectIndex + 1, event)}
+													class="z-10 rounded-full p-1 absolute -right-5 m-2 transition-transform hover:scale-150 hover:translate-x-1"
+												>
+													<ChevronRight size="20" color="black" />
+												</button>
+											{/if}
+											{#if verticalIndexes[projectIndex] < imageArray.length - 1}
+												<svg
+													class="w-16 rotate-180 bottom-0 absolute left-[70px]"
+													viewBox="0 0 50 12.5"
+												>
+													<path
+														d="M 0 0 C 4 0 12 0 16 8 C 19 14 31 14 34 8 C 38 0 46 0 50 0"
+														fill="#ffffff"
+													/>
+												</svg>
+												<button
+													on:click={(event) =>
+														setActiveImage(projectIndex, verticalIndexes[projectIndex] + 1, event)}
+													class="z-10 rounded-full p-1 absolute -bottom-5 left-20 m-2 transition-transform hover:scale-150 hover:translate-y-1"
+												>
+													<ChevronDown size="20" color="black" />
+												</button>
+											{/if}
+											{#if verticalIndexes[projectIndex] > 0}
+												<svg class="w-16 top-0 absolute left-[70px]" viewBox="0 0 50 12.5">
+													<path
+														d="M 0 0 C 4 0 12 0 16 8 C 19 14 31 14 34 8 C 38 0 46 0 50 0"
+														fill="#ffffff"
+													/>
+												</svg>
+												<button
+													on:click={(event) =>
+														setActiveImage(projectIndex, verticalIndexes[projectIndex] - 1, event)}
+													class="z-10 rounded-full p-1 absolute -top-5 left-20 m-2 transition-transform hover:scale-150 hover:-translate-y-1"
+												>
+													<ChevronUp size="20" color="black" />
+												</button>
+											{/if}
+										</div>
+									{/if}
+								</button>
+							{/each}
+						</div>
+					</button>
+				{/each}
 			</div>
-			<h2 class="h3 md:h2">I'm a creative full-stack</h2>
-			<h2 class="h3 md:h2">software developer</h2>
-		</div>
-	</div>
-</div>
-
-<div class="">
-	<Text
-		id="about"
-		title="About me"
-		description="I'm a new developer with a passion for creating fun and interactive experiences. I graduated with honors from Auburn University, 
-		with a degree in Software Engineering. I'm using my skills to pursue my interests in web development, game
-		development, and UI/UX design. I've explored a variety of tools and have developed several projects, some of which are showcased below."
-	/>
-</div>
-
-<Text
-	id="skills"
-	title="Skills"
-	description="I have primarily worked in web and game development, but every project has allowed me to explore new and interesting tools. I'm constantly
-	learning and expanding my skill set. These are just some of the tools I've become proficient with:"
-/>
-<!-- Space tailwind class -->
-<!-- Add some md: -->
-<div class="flex flex-row justify-center flex-wrap w-5/6 md:w-1/2 mx-auto">
-	<Icon img="icons/svelte-icon.webp" title="Svelte" />
-	<Icon img="icons/godot.webp" title="Godot" />
-	<Icon img="icons/blender.png" title="Blender" />
-	<Icon img="icons/aseprite.png" title="Aseprite" />
-	<Icon img="icons/Java-logo.png" title="Java" />
-	<Icon img="icons/JavaScript-logo.png" title="Javascript" />
-	<Icon img="icons/Lua-Logo.svg.png" title="Lua" />
-	<Icon img="icons/python.png" title="Python" />
-	<Icon img="icons/pico-8.png" title="Pico-8" />
-	<Icon img="icons/Xcode_14_icon.png" title="Xcode" />
-	<Icon img="icons/vercel-icon.png" title="Vercel" />
-	<Icon img="icons/Notion_app_logo.png" title="Notion" />
-</div>
-
-<Text id="projects" title="Projects" description="" />
-
-<div id="projects" class="flex flex-row justify-center flex-wrap md:w-3/4 mx-auto">
-	<Project
-		img="dv.png"
-		title="Data Vis Portfolio"
-		description="A collection of data visualizations built with D3 and LayerCharts"
-		link="https://data-portfolio-two.vercel.app/marriage"
-	/>
-	<Project
-		img="kp.png"
-		title="Katapult Properties"
-		description="A real estate company site currently in production, built with Svelte"
-		link="https://www.katapultproperties.com/"
-	/>
-	<Project
-		img="ob.png"
-		title="Ocean Breeze"
-		description="A beach resort site currently in production, built with Svelte"
-		link="https://oceanbreezemd.com/"
-	/>
-	<Project
-		img="pico.png"
-		title="Elemental Bonds"
-		description="An educational game for learning the periodic table, built with
-		Lua for the Pico-8 fantasy console"
-		link="https://chimefever.itch.io/chemical-bonds"
-	/>
-	<Project
-		img="glory.png"
-		title="Glory Farms"
-		description="A wedding venue site currently in production, built with Svelte"
-		link="https://www.glory-farms.com/"
-	/>
-	<Project
-		img="brushup.png"
-		title="Brush Up"
-		description="An educational game for learning art history using the Chicago Art Institute's public API"
-		link="https://webhome.auburn.edu/~jos0007/project5/home.html"
-	/>
-	<Project
-		img="this_site.png"
-		title="This Site"
-		description="My personal portfolio site, built with Svelte"
-		link="https://jacksims.dev/"
-	/>
-</div>
-
-{#if showButton}
-	<div transition:fade class="scroll-button fixed bottom-0 left-0 w-full flex justify-center mb-20">
-		<button
-			on:click={() => handleScroll('about')}
-			class="btn-icon btn-icon-lg variant-ringed ring-[1.5px]"
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				height="40px"
-				viewBox="0 -1000 960 960"
-				width="40px"
-				fill="#e8eaed"
-				><path
-					d="M480-357.67q-6.67 0-12.33-2.16-5.67-2.17-11-7.5L263.33-560.67q-9.66-9.66-9.33-23.66.33-14 10-23.67 9.67-9.67 23.67-9.67 14 0 23.66 9.67L480-438.67 649.33-608q9.67-9.67 23.34-9.33 13.66.33 23.33 10 9.67 9.66 9.67 23.66T696-560L503.33-367.33q-5.33 5.33-11 7.5-5.66 2.16-12.33 2.16Z"
-				/>
-			</svg>
-		</button>
-	</div>
-{/if}
-
-{#if showButtonUp}
-	<div transition:fade class="scroll-button fixed bottom-0 left-0 w-full m-20 md:block hidden">
-		<button
-			on:click={() => handleScroll('fadingDiv')}
-			class="btn-icon btn-icon-lg variant-ringed ring-[1.5px]"
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				height="40px"
-				viewBox="0 -1000 960 960"
-				width="40px"
-				fill="#e8eaed"
-				style="transform: rotate(180deg);"
-				><path
-					d="M480-357.67q-6.67 0-12.33-2.16-5.67-2.17-11-7.5L263.33-560.67q-9.66-9.66-9.33-23.66.33-14 10-23.67 9.67-9.67 23.67-9.67 14 0 23.66 9.67L480-438.67 649.33-608q9.67-9.67 23.34-9.33 13.66.33 23.33 10 9.67 9.66 9.67 23.66T696-560L503.33-367.33q-5.33 5.33-11 7.5-5.66 2.16-12.33 2.16Z"
-				/>
-			</svg>
-		</button>
-	</div>
-{/if}
-
-<div id="contact">
-	<div class="flex flex-col md:flex-row justify-center items-center mt-28 mb-10">
-		<a class="mt-3 mr-4 btn variant-soft md:btn-xl btn-lg" href="mailto:simsjack30@gmail.com"
-			>simsjack30@gmail.com</a
-		>
-		<div class="mt-3 flex flex-row">
-			<a
-				href="https://chimefever.itch.io"
-				class="m-3 btn-icon md:btn-icon-xl btn-icon-lg variant-soft"
-			>
-				<img
-					style="filter: brightness(0) invert(1); scale:calc(0.5);"
-					src="icons/itch.png"
-					alt=""
-				/></a
-			>
-			<a
-				href="https://github.com/simsjack30"
-				class="m-3 btn-icon md:btn-icon-xl btn-icon-lg variant-soft"
-			>
-				<img
-					style="filter: brightness(0) invert(1); scale:calc(0.5);"
-					src="icons/hub.png"
-					alt=""
-				/></a
-			>
 		</div>
 	</div>
 </div>
 
 <style>
-	#fadingDiv {
-		transition: opacity 0.1s ease-out;
+	.active {
+		@apply w-96 cursor-default;
+	}
+	.inactive {
+		@apply hover:scale-95 hover:grayscale-0;
 	}
 </style>
