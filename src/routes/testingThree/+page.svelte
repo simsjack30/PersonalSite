@@ -41,6 +41,7 @@
 	}
 
 	let intro = true;
+	let name = 'Jack Sims';
 </script>
 
 {#if intro}
