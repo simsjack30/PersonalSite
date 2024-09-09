@@ -111,13 +111,11 @@
 
 	function hideModal() {
 		modal = false;
+		eye = false;
 	}
 
 	function showModal() {
 		modal = !modal;
-		if (!modal) {
-			eye = false;
-		}
 	}
 
 	$: if (modal && lastProjectIndex !== activeProjectIndex) {
