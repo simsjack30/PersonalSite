@@ -1,16 +1,46 @@
 <script lang="ts">
 	import { fade, blur } from 'svelte/transition';
 	import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
-	import { X, ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from 'lucide-svelte';
+	import { X, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Divide } from 'lucide-svelte';
 
 	import { faGithub, faLinkedin, faItchIo } from '@fortawesome/free-brands-svg-icons';
 	import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 	import Tile from './Tile.svelte';
 	import { hide } from '@floating-ui/dom';
 
-	let imageArray1 = ['one.jpg', 'two.jpg', 'three.jpg', 'four.jpg', 'five.jpg'];
-	let imageArray2 = ['one.jpg', 'two.jpg', 'three.jpg', 'four.jpg', 'five.jpg'];
-	let imageArray3 = ['one.jpg', 'two.jpg', 'three.jpg', 'four.jpg', 'five.jpg'];
+	// let imageArray1 = ['one.jpg', 'two.jpg', 'three.jpg', 'four.jpg', 'five.jpg'];
+	// let imageArray2 = ['one.jpg', 'two.jpg', 'three.jpg', 'four.jpg', 'five.jpg'];
+	// let imageArray3 = ['one.jpg', 'two.jpg', 'three.jpg', 'four.jpg', 'five.jpg'];
+	// let totalImageArray = [
+	// 	imageArray1,
+	// 	imageArray2,
+	// 	imageArray3,
+	// 	imageArray1,
+	// 	imageArray2,
+	// 	imageArray3
+	// ];
+
+	let imageArray1 = [
+		['one.jpg', 'TEXT'],
+		['two.jpg', 'VERY COOL'],
+		['three.jpg', 'MORE TEXT'],
+		['four.jpg', 'PLACEHOLDER'],
+		['five.jpg', 'CONTENT']
+	];
+	let imageArray2 = [
+		['one.jpg', 'YES'],
+		['two.jpg', 'NO'],
+		['three.jpg', 'ALL ART'],
+		['four.jpg', 'HAS MERIT'],
+		['five.jpg', 'HIRE ME']
+	];
+	let imageArray3 = [
+		['one.jpg', 'PICTURE ONE'],
+		['two.jpg', 'PICTURE TWO'],
+		['three.jpg', 'PICTURE THREE'],
+		['four.jpg', 'PICTURE FOUR'],
+		['five.jpg', 'PICTURE FIVE']
+	];
 	let totalImageArray = [
 		imageArray1,
 		imageArray2,
@@ -20,10 +50,10 @@
 		imageArray3
 	];
 
-	let activeProjectIndex = 3;
+	let activeProjectIndex = 1;
 	let translateXValue = 4 * -activeProjectIndex;
 
-	let verticalIndexes = [2, 0, 4, 2, 1, 4];
+	let verticalIndexes = [2, 3, 4, 1, 3, 0];
 	let translateYValues = verticalIndexes.map((index) => -index * 17);
 
 	let lastProjectIndex = activeProjectIndex;
@@ -178,7 +208,7 @@
 										? 'modalClass'
 										: 'h-64'}"
 								>
-									<img class="w-full h-full object-cover rounded-lg" src={image} alt="Project" />
+									<img class="w-full h-full object-cover rounded-lg" src={image[0]} alt="Project" />
 									{#if verticalIndexes[projectIndex] === imageIndex && activeProjectIndex === projectIndex}
 										<div
 											in:fade={{ duration: 300, delay: 100 }}
@@ -186,9 +216,24 @@
 											class="absolute inset-0 flex flex-col justify-center items-center text-white rounded-lg"
 										>
 											<!-- <Tile /> -->
-											<div class="flex justify-center items-center relative">
-												<button on:click={showModal} class="btn variant-filled-error">test</button>
+											<div
+												class="hover:scale-110 flex justify-center items-center absolute right-0 bottom-0 duration-300 m-2 {modal
+													? 'rotate-180'
+													: ''}"
+											>
+												<button on:click={showModal} class="rounded-full bg-white p-3">
+													<ChevronDown size="20" color="black" />
+												</button>
 											</div>
+											{#if modal}
+												<div
+													class="bg-black p-2 rounded-md text-white absolute -top-14 right-0"
+													in:fade={{ duration: 300, delay: 100 }}
+													out:fade={{ duration: 200 }}
+												>
+													{image[1]}
+												</div>
+											{/if}
 
 											{#if activeProjectIndex > 0}
 												<svg class="w-16 -rotate-90 left-[-25px] absolute" viewBox="0 0 50 12.5">
