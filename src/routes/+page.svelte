@@ -1,10 +1,22 @@
 <script lang="ts">
 	import { fade, blur } from 'svelte/transition';
 	import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
-	import { X, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Divide } from 'lucide-svelte';
+	import {
+		X,
+		ChevronDown,
+		ChevronLeft,
+		ChevronRight,
+		ChevronUp,
+		Divide,
+		LucideFolderMinus,
+		Globe,
+		GithubIcon,
+		Eye,
+		EyeOff
+	} from 'lucide-svelte';
 
 	import { faGithub, faLinkedin, faItchIo } from '@fortawesome/free-brands-svg-icons';
-	import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+	import { faEnvelope, faGlobe, faWebAwesome } from '@fortawesome/free-solid-svg-icons';
 	import Tile from './Tile.svelte';
 	import { hide } from '@floating-ui/dom';
 
@@ -21,25 +33,38 @@
 	// ];
 
 	let imageArray1 = [
-		['one.jpg', 'TEXT'],
-		['two.jpg', 'VERY COOL'],
-		['three.jpg', 'MORE TEXT'],
-		['four.jpg', 'PLACEHOLDER'],
-		['five.jpg', 'CONTENT']
+		[
+			'one.jpg',
+			'katapult',
+			'project',
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, eum. Ex, voluptas quos, cum reprehenderit optio similique facere, fugit deserunt numquam nesciunt dolore veniam ratione iure nemo repellat rerum fuga.',
+			'https://www.katapultproperties.com/'
+		],
+		['two.jpg', 'glory farms', 'project'],
+		['three.jpg', 'jacksims.dev', 'project', 'some text about the project'],
+		['four.jpg', 'ultimate alphabet', 'project'],
+		['five.jpg', 'chemical bonds', 'game']
 	];
 	let imageArray2 = [
-		['one.jpg', 'YES'],
-		['two.jpg', 'NO'],
-		['three.jpg', 'ALL ART'],
-		['four.jpg', 'HAS MERIT'],
-		['five.jpg', 'HIRE ME']
+		['one.jpg', 'wyr', 'game'],
+		['two.jpg', 'shotgolf', 'game'],
+		['three.jpg', 'punchline crunchtime', 'game'],
+		['four.jpg', 'boring mazes', 'game'],
+		['five.jpg', 'sandy booty', 'game']
 	];
 	let imageArray3 = [
-		['one.jpg', 'PICTURE ONE'],
-		['two.jpg', 'PICTURE TWO'],
-		['three.jpg', 'PICTURE THREE'],
-		['four.jpg', 'PICTURE FOUR'],
-		['five.jpg', 'PICTURE FIVE']
+		[
+			'one.jpg',
+			'D3 portfolio',
+			'project',
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur, eum. Ex, voluptas quos, cum reprehenderit optio similique facere, fugit deserunt numquam nesciunt dolore veniam ratione iure nemo repellat rerum fuga.',
+			'https://data-portfolio-two.vercel.app/',
+			'https://github.com/simsjack30/D3_Portfolio',
+			'Svelte, D3, LayerChart, Svelte UX'
+		],
+		['two.jpg', 'brush up', 'game'],
+		['three.jpg', 'ocean breeze', 'project'],
+		['four.jpg', 'PICTURE FOUR', 'project']
 	];
 	let totalImageArray = [
 		imageArray1,
@@ -90,6 +115,9 @@
 
 	function showModal() {
 		modal = !modal;
+		if (!modal) {
+			eye = false;
+		}
 	}
 
 	$: if (modal && lastProjectIndex !== activeProjectIndex) {
@@ -112,6 +140,8 @@
 	) {
 		lastVerticalIndexes[activeProjectIndex] = verticalIndexes[activeProjectIndex];
 	}
+
+	let eye = false;
 </script>
 
 <!-- {#if loading}
@@ -130,7 +160,7 @@
 
 <div class="absolute top-0 left-0 w-full z-20 flex flex-col">
 	<div class="flex flex-row justify-between items-center p-4">
-		<h1 class="h1 text-black">Jack Sims</h1>
+		<h1 class="h1 text-black">jack sims</h1>
 		<div class="flex flex-row gap-4 items-center">
 			<a href="mailto:simsjack30@gmail.com" title="simsjack30@gmail.com">
 				<button
@@ -211,27 +241,91 @@
 									<img class="w-full h-full object-cover rounded-lg" src={image[0]} alt="Project" />
 									{#if verticalIndexes[projectIndex] === imageIndex && activeProjectIndex === projectIndex}
 										<div
-											in:fade={{ duration: 300, delay: 100 }}
+											in:fade={{ duration: 400, delay: 200 }}
 											out:fade={{ duration: 200 }}
 											class="absolute inset-0 flex flex-col justify-center items-center text-white rounded-lg"
 										>
 											<!-- <Tile /> -->
 											<div
-												class="hover:scale-110 flex justify-center items-center absolute right-0 bottom-0 duration-300 m-2 {modal
-													? 'rotate-180'
+												class="z-50 hover:scale-110 flex justify-center items-center absolute translate-y-20 m-2 duration-300 {modal
+													? 'rotate-180 translate-x-40 translate-y-40'
 													: ''}"
-											>
-												<button on:click={showModal} class="rounded-full bg-white p-3">
-													<ChevronDown size="20" color="black" />
-												</button>
-											</div>
+											></div>
+											<div
+												in:fade={{ duration: 300 }}
+												out:fade={{ duration: 200 }}
+												class="{eye
+													? 'opacity-0'
+													: 'opacity-80'} absolute w-full h-full pointer-events-none rounded-lg bg-gradient-to-t from-black to-transparent transition-opacity duration-500"
+											></div>
 											{#if modal}
+												<div class="z-50" in:fade={{ duration: 300 }} out:fade={{ duration: 200 }}>
+													<div class="rounded-lg text-black absolute -top-10 right-0 h3">
+														{image[1]}
+													</div>
+													{#if !eye}
+														<div transition:fade={{ duration: 300 }} class="text-white z-50">
+															<h4 class="h5 text-start p-6 pointer-events-none">{image[3]}</h4>
+														</div>
+													{/if}
+													<div class="flex flex-row absolute bottom-0 right-0 m-2 gap-3">
+														{#if !eye}
+															<button transition:fade={{ duration: 300 }}>
+																<a href={image[4]} target="_blank">
+																	<Globe
+																		class="w-10 h-10 text-black bg-white p-2 rounded-full hover:scale-110 transition-transform active:scale-75"
+																	/>
+																</a>
+															</button>
+														{/if}
+														{#if !eye}
+															<button transition:fade={{ duration: 300 }}>
+																<a href={image[5]} target="_blank">
+																	<GithubIcon
+																		class="w-10 h-10 text-black bg-white p-2 rounded-full hover:scale-110 transition-transform active:scale-75"
+																	/>
+																</a>
+															</button>
+														{/if}
+
+														<button
+															on:click={() => {
+																eye = !eye;
+															}}
+														>
+															{#if eye}
+																<EyeOff
+																	class=" w-10 h-10 text-black bg-white p-2 rounded-full hover:scale-110 transition-transform active:scale-75"
+																/>
+															{:else}
+																<Eye
+																	class=" w-10 h-10 text-black bg-white p-2 rounded-full hover:scale-110 transition-transform active:scale-75"
+																/>
+															{/if}
+														</button>
+														<button on:click={showModal}>
+															<ChevronUp
+																class="w-10 h-10 text-black bg-white p-2 rounded-full hover:scale-110 transition-transform active:scale-75"
+															/>
+														</button>
+													</div>
+												</div>
+											{:else}
 												<div
-													class="bg-black p-2 rounded-md text-white absolute -top-14 right-0"
 													in:fade={{ duration: 300, delay: 100 }}
 													out:fade={{ duration: 200 }}
+													class="z-50 absolute mt-6"
 												>
-													{image[1]}
+													<div class="rounded-lg text-white h3 m-1">
+														{image[1]}
+													</div>
+													<div class="h5">{image[6]}</div>
+													<button
+														on:click={showModal}
+														class="rounded-full bg-white p-2 mt-6 hover:scale-110 transition-transform active:scale-75"
+													>
+														<ChevronDown size="25" color="black" />
+													</button>
 												</div>
 											{/if}
 
