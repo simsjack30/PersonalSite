@@ -409,7 +409,7 @@
 												<div
 													in:fade={{ duration: 300, delay: 100 }}
 													out:fade={{ duration: 200 }}
-													class="z-50 absolute mt-16"
+													class="z-50 absolute mt-16 mx-4"
 												>
 													<div class="rounded-lg text-white h3 m-1">
 														{image[1]}
