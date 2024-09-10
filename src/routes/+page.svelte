@@ -27,7 +27,6 @@
 		'',
 		'Svelte  |  Directus  |  Skeleton UI'
 	];
-
 	let glory_farms = [
 		'farm2.png',
 		'Glory Farms',
@@ -37,7 +36,6 @@
 		'',
 		'Svelte  |  PocketBase  |  Skeleton UI'
 	];
-
 	let jack_sims = [
 		'jack4.png',
 		'jacksims.dev',
@@ -47,7 +45,6 @@
 		'https://github.com/simsjack30/PersonalSite',
 		'Svelte  |  Skeleton UI'
 	];
-
 	let ultimate_alphabet = [
 		'alphabet2.png',
 		'Ultimate Alphabet',
@@ -57,7 +54,6 @@
 		'https://github.com/simsjack30/UltimateAlphabet',
 		'Svelte  |  PocketBase  |  shadcn-svelte'
 	];
-
 	let chemical_bonds = [
 		'bonds.png',
 		'chemical bonds',
@@ -67,7 +63,6 @@
 		'https://github.com/simsjack30/ChemicalBonds',
 		'Lua  |  Pico-8'
 	];
-
 	let wyr = [
 		'wyr3.png',
 		'WYR',
@@ -77,7 +72,6 @@
 		'',
 		'Godot  |  GDScript  |  Aseprite'
 	];
-
 	let shotgolf = [
 		'golf3.png',
 		'Shotgolf',
@@ -87,7 +81,6 @@
 		'',
 		'Defold  |  Aseprite'
 	];
-
 	let punchline_crunchtime = [
 		'joke2.png',
 		'Punchline Crunchtime',
@@ -97,7 +90,6 @@
 		'',
 		'Godot  |  GDScript  | Procreate'
 	];
-
 	let boring_mazes = [
 		'maze2.png',
 		'Boring Mazes',
@@ -107,7 +99,6 @@
 		'',
 		'Lua  |  Pico-8'
 	];
-
 	let sandy_booty = [
 		'booty.png',
 		'Sandy Booty',
@@ -117,7 +108,6 @@
 		'',
 		'Logic Pro X  |  OP-1  |  Nord Stage 3'
 	];
-
 	let d3_portfolio = [
 		'd3.png',
 		'D3 Portfolio',
@@ -127,7 +117,6 @@
 		'https://github.com/simsjack30/D3_Portfolio',
 		'Svelte  |  D3  |  LayerChart  |  Svelte UX'
 	];
-
 	let brush_up = [
 		'art2.png',
 		'Brush Up',
@@ -137,7 +126,6 @@
 		'https://github.com/simsjack30/BrushUp',
 		'PHP  |  MySQL'
 	];
-
 	let ocean_breeze = [
 		'beach.png',
 		'Ocean Breeze',
@@ -155,11 +143,15 @@
 
 	let totalImageArray = [imageArray1, imageArray2, imageArray3, imageArray4];
 
+	// this value controls how much it shifts left and right - 0 is none, 13 is full
+	// Mobile will end up needing the full 13
+	const projectWidth = 4;
+	const imageHeight = 17;
 	let activeProjectIndex = 1;
-	let translateXValue = 4 * -activeProjectIndex;
+	let translateXValue = projectWidth * -activeProjectIndex;
 
 	let verticalIndexes = [2, 2, 1, 0];
-	let translateYValues = verticalIndexes.map((index) => -index * 17);
+	let translateYValues = verticalIndexes.map((index) => -index * imageHeight);
 
 	let lastProjectIndex = activeProjectIndex;
 	let lastVerticalIndexes = [...verticalIndexes];
@@ -168,7 +160,6 @@
 		lastProjectIndex = activeProjectIndex;
 		if (event) event.stopPropagation();
 		activeProjectIndex = index;
-		const projectWidth = 4;
 		translateXValue = -index * projectWidth;
 	}
 
@@ -177,7 +168,6 @@
 
 		if (event) event.stopPropagation();
 		verticalIndexes[projectIndex] = imageIndex;
-		const imageHeight = 17;
 		translateYValues[projectIndex] = -imageIndex * imageHeight;
 	}
 
@@ -231,7 +221,7 @@
 		class="absolute w-full h-screen flex flex-col gap-4 justify-center items-center bg-white z-50"
 	>
 		<h1 class="text-black h1">jacksims.dev</h1>
-		<ProgressRadial meter="stroke-black" track="stroke-white" width="w-14" stroke={100} />
+		<ProgressRadial meter="stroke-black" track="stroke-white" width="w-14" stroke={50} />
 	</div>
 {/if}
 
@@ -283,7 +273,7 @@
 
 <div class="fixed inset-0 overflow-hidden h-screen w-screen flex flex-col">
 	<div
-		class="absolute top-1/2 left-1/4 z-40"
+		class="absolute z-40"
 		style="transform: translateX({16 + translateXValue + activeProjectIndex * 13}rem);"
 	></div>
 
@@ -291,7 +281,7 @@
 		class="relative h-full w-full transition-transform duration-500 delay-200 flex md:scale-0"
 		style="transform: translateX({translateXValue}rem);"
 	>
-		<div class="absolute top-1/2 left-1/4">
+		<div class="absolute md:top-1/2 top-[40%] md:left-[30%] left-2">
 			<div class="flex flex-row gap-4 -translate-x-32 -translate-y-32 items-start">
 				{#each totalImageArray as imageArray, projectIndex}
 					<button
@@ -424,7 +414,9 @@
 													<div class="rounded-lg text-white h3 m-1">
 														{image[1]}
 													</div>
-													<div class="h5 whitespace-pre-wrap">{image[6]}</div>
+													<div class="h5 whitespace-pre-wrap pointer-events-none mx-2">
+														{image[6]}
+													</div>
 													<button
 														on:click={showModal}
 														class="rounded-full bg-white p-2 mt-6 hover:scale-110 transition-transform active:scale-75"
@@ -513,19 +505,9 @@
 	</div>
 </div>
 
-<!-- {#if modal}
-	<div
-		class="absolute bg-black opacity-40 z-40 w-full h-screen flex justify-center items-center"
-	></div>
-	<div>
-
-	</div>
-	<div class="absolute flex h-1/3 w-1/3 justify-center items-center bg-white z-50">CONTENT</div>
-{/if} -->
-
 <style>
 	.active {
-		@apply w-96 cursor-default;
+		@apply md:w-96 w-80 cursor-default;
 	}
 	.inactive {
 		@apply hover:scale-95 hover:grayscale-0;
