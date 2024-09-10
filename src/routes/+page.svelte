@@ -83,7 +83,7 @@
 	];
 	let punchline_crunchtime = [
 		'joke2.png',
-		'Punchline Crunchtime',
+		'Punchline',
 		'game',
 		'Made with Godot and submitted to Ludum Dare 53, this game challenges players to navigate increasingly difficult levels as a comedian, all while telling jokes.',
 		'https://chimefever.itch.io/punchline-crunchtime',
@@ -411,7 +411,7 @@
 													out:fade={{ duration: 200 }}
 													class="z-50 absolute mt-16 mx-4"
 												>
-													<div class="rounded-lg text-white h3 m-1">
+													<div class="rounded-lg text-white h2 m-1">
 														{image[1]}
 													</div>
 													<div class="h5 whitespace-pre-wrap pointer-events-none mx-2">
