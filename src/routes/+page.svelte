@@ -173,7 +173,7 @@
 	}
 
 	function setActiveImage(projectIndex: number, imageIndex: number, event?: MouseEvent) {
-		lastVerticalIndexes[projectIndex] = verticalIndexes[projectIndex]; // Save the previous vertical index for this project
+		lastVerticalIndexes[projectIndex] = verticalIndexes[projectIndex];
 
 		if (event) event.stopPropagation();
 		verticalIndexes[projectIndex] = imageIndex;
@@ -183,9 +183,9 @@
 
 	let loading = true;
 
-	// setTimeout(() => {
-	// 	loading = false;
-	// }, 3000);
+	setTimeout(() => {
+		loading = false;
+	}, 3000);
 
 	let modal = false;
 
@@ -225,7 +225,7 @@
 	let eye = false;
 </script>
 
-<!-- {#if loading}
+{#if loading}
 	<div
 		transition:blur={{ duration: 1000 }}
 		class="absolute w-full h-screen flex flex-col gap-4 justify-center items-center bg-white z-50"
@@ -233,7 +233,7 @@
 		<h1 class="text-black h1">jacksims.dev</h1>
 		<ProgressRadial meter="stroke-black" track="stroke-white" width="w-14" stroke={100} />
 	</div>
-{/if} -->
+{/if}
 
 <div class="absolute bottom-0 left-0 w-full pointer-events-none z-10">
 	<div class="h-40" style="background: linear-gradient(to top, white, transparent);"></div>
