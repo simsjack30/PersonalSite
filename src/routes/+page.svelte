@@ -115,7 +115,7 @@
 		'I built this site to learn more about D3.js and to demonstrate my expertise in visual storytelling. The site features three advanced visualizations, built using the Mapbox, US Census, and Marketstack APIs.',
 		'https://data-portfolio-two.vercel.app/',
 		'https://github.com/simsjack30/D3_Portfolio',
-		'Svelte  |  D3  |  LayerChart  |  Svelte UX'
+		'Svelte  |  LayerChart  |  Svelte UX'
 	];
 	let brush_up = [
 		'art2.png',
@@ -510,7 +510,7 @@
 		@apply md:w-96 w-80 cursor-default;
 	}
 	.inactive {
-		@apply hover:scale-95 hover:grayscale-0;
+		@apply hover:scale-95;
 	}
 	.modalClass {
 		@apply h-96;
