@@ -2,7 +2,6 @@
 	import { fade, blur } from 'svelte/transition';
 	import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
 	import {
-		X,
 		ChevronDown,
 		ChevronLeft,
 		ChevronRight,
@@ -14,8 +13,7 @@
 	} from 'lucide-svelte';
 
 	import { faGithub, faLinkedin, faItchIo } from '@fortawesome/free-brands-svg-icons';
-	import { faEnvelope, faGlobe, faWebAwesome } from '@fortawesome/free-solid-svg-icons';
-	import Tile from './Tile.svelte';
+	import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
 
 	let katapult = [
@@ -143,11 +141,9 @@
 
 	let totalImageArray = [imageArray1, imageArray2, imageArray3, imageArray4];
 
-	// this value controls how much it shifts left and right - 0 is none, 13 is full
-	// Mobile will end up needing the full 13
 	let projectWidth = 13;
 	const imageHeight = 17;
-	let activeProjectIndex = 0;
+	let activeProjectIndex = 1;
 	let translateXValue = projectWidth * -activeProjectIndex;
 
 	let verticalIndexes = [2, 2, 1, 0];
@@ -232,10 +228,9 @@
 			projectWidth = 6;
 		}
 	});
-	$: console.log(screenWidth, screenHeight);
 </script>
 
-<!-- {#if loading}
+{#if loading}
 	<div
 		transition:blur={{ duration: 1000 }}
 		class="absolute w-full h-screen flex flex-col gap-4 justify-center items-center bg-white z-50"
@@ -243,7 +238,7 @@
 		<h1 class="text-black h1">jacksims.dev</h1>
 		<ProgressRadial meter="stroke-black" track="stroke-white" width="w-14" stroke={50} />
 	</div>
-{/if} -->
+{/if}
 
 <div class="absolute bottom-0 left-0 w-full pointer-events-none z-10">
 	<div class="h-20 md:h-40" style="background: linear-gradient(to top, white, transparent);"></div>
