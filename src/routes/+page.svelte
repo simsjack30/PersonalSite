@@ -299,7 +299,7 @@
 		class="relative h-full w-full transition-transform duration-500 delay-200"
 		style="transform: translateX({translateXValue}rem);"
 	>
-		<div class="absolute md:top-1/3 top-[20%] left-4 md:left-96">
+		<div class="absolute md:top-1/3 top-[20%] left-4 md:left-1/4">
 			<div class="flex flex-row gap-4 items-start">
 				{#each totalImageArray as imageArray, projectIndex}
 					<button
