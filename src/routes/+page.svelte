@@ -220,12 +220,15 @@
 	onMount(() => {
 		screenWidth = window.innerWidth;
 		screenHeight = window.innerHeight;
-		if (screenWidth < 768) {
+		if (screenWidth < 384) {
 			projectWidth = 13;
 			tileWidth = screenWidth - 32;
 			smallScreen = true;
+		} else if (screenWidth < 768) {
+			projectWidth = 13;
 		} else {
 			projectWidth = 6;
+			translateXValue = projectWidth * -activeProjectIndex;
 		}
 	});
 </script>
@@ -331,11 +334,7 @@
 										: ''}
 								>
 									<img class="w-full h-full object-cover rounded-lg" src={image[0]} alt="Project" />
-									<!-- <div class="w-full h-full rounded-lg bg-black">
-										<div class="absolute bottom-0 right-0 text-white h3 text-right m-2">
-											{image[1]}
-										</div>
-									</div> -->
+
 									{#if verticalIndexes[projectIndex] === imageIndex && activeProjectIndex === projectIndex}
 										<div
 											in:fade={{ duration: 400, delay: 200 }}
@@ -527,7 +526,7 @@
 
 <style>
 	.active {
-		@apply md:w-96;
+		@apply w-96;
 	}
 
 	.inactive {
