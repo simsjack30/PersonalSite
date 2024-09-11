@@ -145,9 +145,9 @@
 
 	// this value controls how much it shifts left and right - 0 is none, 13 is full
 	// Mobile will end up needing the full 13
-	const projectWidth = 4;
+	let projectWidth = 13;
 	const imageHeight = 17;
-	let activeProjectIndex = 1;
+	let activeProjectIndex = 0;
 	let translateXValue = projectWidth * -activeProjectIndex;
 
 	let verticalIndexes = [2, 2, 1, 0];
@@ -213,9 +213,29 @@
 	}
 
 	let eye = false;
+
+	import { onMount } from 'svelte';
+
+	let smallScreen = false;
+	let screenWidth = 0;
+	let screenHeight = 0;
+	let tileWidth = 0;
+
+	onMount(() => {
+		screenWidth = window.innerWidth;
+		screenHeight = window.innerHeight;
+		if (screenWidth < 768) {
+			projectWidth = 13;
+			tileWidth = screenWidth - 32;
+			smallScreen = true;
+		} else {
+			projectWidth = 6;
+		}
+	});
+	$: console.log(screenWidth, screenHeight);
 </script>
 
-{#if loading}
+<!-- {#if loading}
 	<div
 		transition:blur={{ duration: 1000 }}
 		class="absolute w-full h-screen flex flex-col gap-4 justify-center items-center bg-white z-50"
@@ -223,16 +243,16 @@
 		<h1 class="text-black h1">jacksims.dev</h1>
 		<ProgressRadial meter="stroke-black" track="stroke-white" width="w-14" stroke={50} />
 	</div>
-{/if}
+{/if} -->
 
 <div class="absolute bottom-0 left-0 w-full pointer-events-none z-10">
-	<div class="h-40" style="background: linear-gradient(to top, white, transparent);"></div>
+	<div class="h-20 md:h-40" style="background: linear-gradient(to top, white, transparent);"></div>
 	<div class="h-8 bg-white"></div>
 </div>
 
 <div class="absolute top-0 left-0 w-full z-20 flex flex-col">
 	<div class="flex flex-row justify-between items-center p-4">
-		<h1 class="h1 text-black">Jack Sims</h1>
+		<h1 class="md:h1 h2 text-black">Jack Sims</h1>
 		<div class="flex flex-row gap-4 items-center">
 			<a href="mailto:simsjack30@gmail.com" title="simsjack30@gmail.com">
 				<button
@@ -268,21 +288,21 @@
 
 <div class="absolute top-0 left-0 w-full pointer-events-none z-10">
 	<div class="h-20 bg-white"></div>
-	<div class="h-40" style="background: linear-gradient(to bottom, white, transparent);"></div>
+	<div
+		class="h-20 md:h-40"
+		style="background: linear-gradient(to bottom, white, transparent);"
+	></div>
 </div>
 
 <div class="fixed inset-0 overflow-hidden h-screen w-screen flex flex-col">
+	<!-- This duration and delay control horizontal smoothing -->
+	<!-- Also controls how far it is shifted right (left relatively) using the translateXValue -->
 	<div
-		class="absolute z-40"
-		style="transform: translateX({16 + translateXValue + activeProjectIndex * 13}rem);"
-	></div>
-
-	<div
-		class="relative h-full w-full transition-transform duration-500 delay-200 flex md:scale-0"
+		class="relative h-full w-full transition-transform duration-500 delay-200"
 		style="transform: translateX({translateXValue}rem);"
 	>
-		<div class="absolute md:top-1/2 top-[40%] md:left-[30%] left-2">
-			<div class="flex flex-row gap-4 -translate-x-32 -translate-y-32 items-start">
+		<div class="absolute md:top-1/3 top-[20%] left-4 md:left-96">
+			<div class="flex flex-row gap-4 items-start">
 				{#each totalImageArray as imageArray, projectIndex}
 					<button
 						class="{activeProjectIndex === projectIndex
@@ -309,6 +329,11 @@
 									activeProjectIndex === projectIndex
 										? 'modalClass'
 										: 'h-64'}"
+									style={smallScreen &&
+									verticalIndexes[projectIndex] === imageIndex &&
+									activeProjectIndex === projectIndex
+										? `width: ${tileWidth}px;`
+										: ''}
 								>
 									<img class="w-full h-full object-cover rounded-lg" src={image[0]} alt="Project" />
 									<!-- <div class="w-full h-full rounded-lg bg-black">
@@ -339,7 +364,7 @@
 												></div>
 												<div class="z-50" in:fade={{ duration: 300 }} out:fade={{ duration: 200 }}>
 													<div
-														class="absolute bottom-full right-0 max-w-44 pb-2 rounded-lg text-black"
+														class="hidden md:flex absolute bottom-full right-0 max-w-44 pb-2 rounded-lg text-black"
 													>
 														<div class="flex flex-col items-end text-right break-words">
 															<span class="h3">
@@ -507,10 +532,11 @@
 
 <style>
 	.active {
-		@apply md:w-96 w-80 cursor-default;
+		@apply md:w-96;
 	}
+
 	.inactive {
-		@apply hover:scale-95;
+		@apply md:hover:scale-95;
 	}
 	.modalClass {
 		@apply h-96;
