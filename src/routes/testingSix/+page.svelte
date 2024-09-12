@@ -2,16 +2,15 @@
 	import { ChevronDown, ChevronUp } from 'lucide-svelte';
 	import Tile from './Tile.svelte';
 	import { fade } from 'svelte/transition';
-	import { hide } from '@floating-ui/dom';
 
 	export let data;
 
 	// Values in rem
 	let gap = 1;
-	let width = 12;
-	let activeWidth = 24;
-	let height = 16;
-	let modalHeight = 24;
+	let width = 6;
+	let activeWidth = 16;
+	let height = 10;
+	let modalHeight = 16;
 
 	// These will end up controlling the scroll amount (These will trigger full tile scroll)
 	let heightTotal = height + gap;
@@ -22,15 +21,18 @@
 	let yOffsets = verticalIndexes.map((index) => -index * heightTotal);
 
 	// This initializes which column is selected
-	let horizontalIndex = 1;
-	let xOffset = -horizontalIndex * widthTotal;
+	let horizontalIndex = 0;
+	// let xOffset = -horizontalIndex * widthTotal;
 
 	function updateProject(colIndex: number, tileIndex: number) {
+		hideModal();
 		verticalIndexes[colIndex] = tileIndex;
 		horizontalIndex = colIndex;
 
-		xOffset = -colIndex * widthTotal;
 		yOffsets[colIndex] = -tileIndex * heightTotal;
+
+		const scrollXPosition = colIndex * (widthTotal * 16);
+		window.scrollTo({ left: scrollXPosition, behavior: 'smooth' });
 	}
 
 	let modal = false;
@@ -44,18 +46,12 @@
 	}
 </script>
 
-<div class="p-20 overflow-hidden">
-	<div
-		class="flex flex-row duration-500"
-		style="transform: translateX({xOffset}rem); gap: {gap}rem"
-	>
+<div class="p-20">
+	<div class="flex flex-row" style="width: 300vw; gap: {gap}rem">
 		{#each data.tiles as tileCol, colIndex}
 			<div
-				class="flex flex-col duration-500"
-				style="transform: translateY({yOffsets[colIndex]}rem); gap: {gap}rem; width: {colIndex ===
-				horizontalIndex
-					? activeWidth
-					: width}rem;"
+				class="flex flex-col duration-300"
+				style="transform: translateY({yOffsets[colIndex]}rem); gap: {gap}rem;"
 			>
 				{#each tileCol as tile, tileIndex}
 					<button
@@ -66,18 +62,23 @@
 						tileIndex === verticalIndexes[colIndex]
 							? modalHeight
 							: height}rem;"
-						class="duration-500 relative"
+						class="duration-300 relative"
 						on:click={() => updateProject(colIndex, tileIndex)}
 					>
 						<img src={tile[0]} alt="" class="rounded-lg w-full h-full object-cover" />
 						{#if !modal && colIndex === horizontalIndex && tileIndex === verticalIndexes[colIndex]}
-							<div in:fade={{ duration: 300, delay: 200 }} out:fade={{ duration: 300 }}>
+							<div in:fade={{ duration: 300, delay: 200 }} out:fade={{ duration: 100 }}>
 								<Tile project={tile[1]} tools={tile[6]} />
-								<button class="absolute flex justify-center bottom-4 w-full" on:click={showModal}>
+								<!-- svelte-ignore a11y-no-static-element-interactions -->
+								<!-- svelte-ignore a11y-click-events-have-key-events -->
+								<div
+									class="absolute bottom-14 flex justify-center w-full h-0"
+									on:click|stopPropagation={showModal}
+								>
 									<ChevronDown
 										class="w-10 h-10 bg-white p-2 rounded-full hover:scale-110 transition-transform active:scale-75"
 									/>
-								</button>
+								</div>
 							</div>
 						{/if}
 					</button>

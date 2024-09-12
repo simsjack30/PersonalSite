@@ -3,16 +3,14 @@
 	export let tools;
 </script>
 
-<!-- <div
-	class="opacity-80 absolute w-full h-full pointer-events-none rounded-lg bg-gradient-to-t from-black to-transparent transition-opacity duration-500"
-></div> -->
-<div
-	class="pointer-events-none absolute top-0 flex flex-col justify-center items-center w-full h-full"
->
-	<div class="rounded-lg text-white h2">
+<div class="cursor-default absolute top-0 flex flex-col justify-center items-center w-full h-full">
+	<div class="rounded-lg text-white h2 z-10">
 		{project}
 	</div>
-	<div class="h5 text-white whitespace-pre-wrap">
+	<div class="h5 text-white whitespace-pre-wrap z-10">
 		{tools}
 	</div>
+	<div
+		class="opacity-80 absolute w-full h-full rounded-lg bg-gradient-to-t from-black to-transparent"
+	></div>
 </div>
