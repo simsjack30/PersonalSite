@@ -322,7 +322,7 @@
 									class="h-64 w-48 relative {verticalIndexes[projectIndex] === imageIndex &&
 									activeProjectIndex === projectIndex
 										? 'active'
-										: 'grayscale inactive'} transition-all duration-500 {modal &&
+										: 'lg:grayscale inactive'} transition-all duration-500 {modal &&
 									verticalIndexes[projectIndex] === imageIndex &&
 									activeProjectIndex === projectIndex
 										? 'modalClass'

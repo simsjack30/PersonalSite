@@ -7,21 +7,21 @@
 
 	// Values in rem
 	let gap = 1;
-	let width = 6;
-	let activeWidth = 16;
-	let height = 10;
-	let modalHeight = 16;
+	let width = 8;
+	let activeWidth = 24;
+	let height = 14;
+	let modalHeight = 24;
 
 	// These will end up controlling the scroll amount (These will trigger full tile scroll)
 	let heightTotal = height + gap;
 	let widthTotal = width + gap;
 
 	// This initializes which tile is selected within each column
-	let verticalIndexes = [0, 1, 2, 0];
+	let verticalIndexes = [1, 1, 1, 0];
 	let yOffsets = verticalIndexes.map((index) => -index * heightTotal);
 
 	// This initializes which column is selected
-	let horizontalIndex = 0;
+	let horizontalIndex = 1;
 	// let xOffset = -horizontalIndex * widthTotal;
 
 	function updateProject(colIndex: number, tileIndex: number) {
@@ -46,12 +46,14 @@
 	}
 </script>
 
-<div class="p-20">
-	<div class="flex flex-row" style="width: 300vw; gap: {gap}rem">
+<div class="pl-40 pt-64 h-[200vh]">
+	<div class="flex flex-row h-full" style="width: 300vw; gap: {gap}rem">
 		{#each data.tiles as tileCol, colIndex}
 			<div
-				class="flex flex-col duration-300"
-				style="transform: translateY({yOffsets[colIndex]}rem); gap: {gap}rem;"
+				class="flex flex-col"
+				style="transition-property: transform;transition-duration: 500ms; transform: translateY({yOffsets[
+					colIndex
+				]}rem); gap: {gap}rem;"
 			>
 				{#each tileCol as tile, tileIndex}
 					<button
@@ -62,7 +64,10 @@
 						tileIndex === verticalIndexes[colIndex]
 							? modalHeight
 							: height}rem;"
-						class="duration-300 relative"
+						class="duration-500 relative {colIndex === horizontalIndex &&
+						tileIndex === verticalIndexes[colIndex]
+							? ''
+							: 'lg:grayscale'}"
 						on:click={() => updateProject(colIndex, tileIndex)}
 					>
 						<img src={tile[0]} alt="" class="rounded-lg w-full h-full object-cover" />
@@ -72,7 +77,7 @@
 								<!-- svelte-ignore a11y-no-static-element-interactions -->
 								<!-- svelte-ignore a11y-click-events-have-key-events -->
 								<div
-									class="absolute bottom-14 flex justify-center w-full h-0"
+									class="absolute bottom-14 lg:bottom-16 justify-center w-full h-0 hidden lg:flex"
 									on:click|stopPropagation={showModal}
 								>
 									<ChevronDown

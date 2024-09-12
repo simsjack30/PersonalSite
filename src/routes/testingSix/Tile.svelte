@@ -4,10 +4,10 @@
 </script>
 
 <div class="cursor-default absolute top-0 flex flex-col justify-center items-center w-full h-full">
-	<div class="rounded-lg text-white h2 z-10">
+	<div class="rounded-lg text-white text-5xl font-medium lg:h2 z-10">
 		{project}
 	</div>
-	<div class="h5 text-white whitespace-pre-wrap z-10">
+	<div class="hidden lg:flex h5 text-white whitespace-pre-wrap z-10 m-2">
 		{tools}
 	</div>
 	<div

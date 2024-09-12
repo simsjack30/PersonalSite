@@ -118,7 +118,7 @@ export function load() {
 	];
 
 	let col1 = [boring_mazes, shotgolf, glory_farms];
-	let col2 = [wyr, ultimate_alphabet, d3_portfolio, ocean_breeze];
+	let col2 = [wyr, d3_portfolio, ultimate_alphabet, ocean_breeze];
 	let col3 = [chemical_bonds, katapult, sandy_booty];
 	let col4 = [jack_sims, brush_up, punchline_crunchtime];
 
