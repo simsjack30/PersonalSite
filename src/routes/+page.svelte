@@ -233,7 +233,7 @@
 	});
 </script>
 
-{#if loading}
+<!-- {#if loading}
 	<div
 		transition:blur={{ duration: 1000 }}
 		class="absolute w-full h-screen flex flex-col gap-4 justify-center items-center bg-white z-50"
@@ -241,7 +241,7 @@
 		<h1 class="text-black h1">jacksims.dev</h1>
 		<ProgressRadial meter="stroke-black" track="stroke-white" width="w-14" stroke={50} />
 	</div>
-{/if}
+{/if} -->
 
 <div class="absolute bottom-0 left-0 w-full pointer-events-none z-10">
 	<div class="h-20 md:h-40" style="background: linear-gradient(to top, white, transparent);"></div>
@@ -322,7 +322,7 @@
 									class="h-64 w-48 relative {verticalIndexes[projectIndex] === imageIndex &&
 									activeProjectIndex === projectIndex
 										? 'active'
-										: 'lg:grayscale inactive'} transition-all duration-500 {modal &&
+										: 'xl:grayscale inactive'} transition-all duration-500 {modal &&
 									verticalIndexes[projectIndex] === imageIndex &&
 									activeProjectIndex === projectIndex
 										? 'modalClass'
@@ -342,7 +342,7 @@
 											class="absolute inset-0 flex flex-col justify-center items-center text-white rounded-lg"
 										>
 											<div
-												class="bg-black w-full h-full inset-0 bg-opacity-30 transition-opacity absolute rounded-lg {eye
+												class=" bg-black w-full h-full inset-0 bg-opacity-30 transition-opacity absolute rounded-lg {eye
 													? 'opacity-0'
 													: 'opacity-80'}"
 											></div>
@@ -430,7 +430,7 @@
 													out:fade={{ duration: 200 }}
 													class="z-50 absolute mt-16 mx-4"
 												>
-													<div class="rounded-lg text-white h2 m-1">
+													<div class=" pointer-events-none rounded-lg text-white h2 m-1">
 														{image[1]}
 													</div>
 													<div class="h5 whitespace-pre-wrap pointer-events-none mx-2">
