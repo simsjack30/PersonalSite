@@ -133,13 +133,23 @@
 		'',
 		'Svelte  |  Directus  |  Skeleton UI'
 	];
+	let sweet_water = [
+		'sweet2.png',
+		'Laravel Demo',
+		'project',
+		'A demo site built with Laravel and Tailwind CSS to showcase my ability to build a full-stack application.',
+		'https://sweetwater.jacksims.dev/',
+		'',
+		'Laravel  |  Tailwind CSS'
+	];
 
 	let imageArray1 = [boring_mazes, shotgolf, glory_farms];
 	let imageArray2 = [wyr, ultimate_alphabet, d3_portfolio, ocean_breeze];
 	let imageArray3 = [chemical_bonds, katapult, sandy_booty];
 	let imageArray4 = [jack_sims, brush_up, punchline_crunchtime];
+	let imageArray5 = [sweet_water];
 
-	let totalImageArray = [imageArray1, imageArray2, imageArray3, imageArray4];
+	let totalImageArray = [imageArray1, imageArray2, imageArray3, imageArray4, imageArray5];
 
 	let projectWidth = 13;
 	const imageHeight = 17;
