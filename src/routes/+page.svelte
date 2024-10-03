@@ -249,7 +249,7 @@
 		class="absolute w-full h-screen flex flex-col gap-4 justify-center items-center bg-white z-50"
 	>
 		<h1 class="text-black h1">jacksims.dev</h1>
-		<ProgressRadial meter="stroke-black" track="stroke-white" width="w-14" stroke={50} />
+		<ProgressRadial meter="stroke-black" track="stroke-white" width="w-14" stroke={40} />
 	</div>
 {/if}
 
