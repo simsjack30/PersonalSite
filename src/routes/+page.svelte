@@ -142,12 +142,21 @@
 		'',
 		'Laravel  |  Tailwind CSS'
 	];
+	let after_hours = [
+		'afterhours2.png',
+		'After Hours',
+		'project',
+		"Our team's submission to Ludem Dare 56. Play against various pet store bosses each with their own unique mechanics.",
+		'https://seltzerfish.itch.io/after-hours',
+		'',
+		'Godot  |  Aseprite  |  Procreate'
+	];
 
 	let imageArray1 = [boring_mazes, shotgolf, glory_farms];
 	let imageArray2 = [wyr, ultimate_alphabet, d3_portfolio, ocean_breeze];
 	let imageArray3 = [chemical_bonds, katapult, sandy_booty];
 	let imageArray4 = [jack_sims, brush_up, punchline_crunchtime];
-	let imageArray5 = [sweet_water];
+	let imageArray5 = [after_hours, sweet_water];
 
 	let totalImageArray = [imageArray1, imageArray2, imageArray3, imageArray4, imageArray5];
 
